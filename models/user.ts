@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import IUserInDb from '../../interfaces/UserInDb';
-import { hashPassword } from "../../services/user/helpers";
-import regex from "../../utils/dict/regex";
+import IUserInDb from '../interfaces/UserInDb';
+import { hashPassword } from "../services/user/helpers";
+import regex from "../utils/dict/regex";
 
 const userSchema = new Schema<IUserInDb>({
   name: {

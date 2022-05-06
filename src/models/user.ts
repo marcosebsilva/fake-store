@@ -2,6 +2,7 @@ import { model, Schema, Types } from "mongoose";
 import IUserInDb from '../../interfaces/UserInDb';
 import { hashPassword } from "../services/user/helpers";
 import regex from "../utils/dict/regex";
+import statusCodes from '../utils/dict/statusCodes.json';
 
 const userSchema = new Schema<IUserInDb>({
   name: {
@@ -35,18 +36,8 @@ const userSchema = new Schema<IUserInDb>({
   }
 });
 
-userSchema.pre('save', async function() {
-  if (this.isNew)  {
-    this.password = await hashPassword(this.password);
-    return;
-  }
-
-  const userExists = await User.findOne({ email: this.email });
-
-  if (userExists) {
-    this.invalidate('email', 'Email already registered.');
-  }
-
+userSchema.post('validate', async function() {
+  this.password = await hashPassword(this.password);
 });
 
 

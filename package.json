@@ -7,7 +7,7 @@
     "start": "npm run build && node ./dist/src/api/server.js",
     "dev": "tsnd ./src/api/server.ts",
     "build": "tsc",
-    "test": "mocha --require ts-node/register __tests__/**/*.spec.ts"
+    "test": "mocha --require ts-node/register __tests__/*.spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,17 +21,19 @@
     "@types/mocha": "^9.1.1",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^17.0.31",
+    "@types/sinon": "^10.0.11",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^16.0.0",
     "mocha": "^10.0.0",
+    "sinon": "^13.0.2",
     "ts-node-dev": "^1.1.8"
   },
   "dependencies": {
-    "typescript": "^4.6.4",
     "bcrypt": "^5.0.1",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.2"
+    "mongoose": "^6.3.2",
+    "typescript": "^4.6.4"
   }
 }

@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import IBaseUser from './BaseUser';
 
 interface Coins {
@@ -6,6 +7,7 @@ interface Coins {
 }
 
 export default interface IUserInDb extends IBaseUser{
-  coins: Coins[],
-  role: string
+  coins: Types.Array<Coins>,
+  role: string,
+  _id: Types.ObjectId,
 }

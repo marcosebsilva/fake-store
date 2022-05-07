@@ -19,7 +19,7 @@ after(async () => {
   await mongoose.connection.close();
 });
 
-describe("When creating a user with the right data", () => {
+describe.skip("When creating a user with the right data", () => {
   before(async () => {
     await User.deleteMany({});
   });
@@ -73,7 +73,7 @@ describe("When creating a user with the right data", () => {
   });
 });
 
-describe('When creating a user with the wrong data', () => {
+describe.skip('When creating a user with the wrong data', () => {
   before(async () => {
     await User.deleteMany({});
   });

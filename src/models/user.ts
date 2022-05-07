@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import IUserInDb from '../../interfaces/UserInDb';
-import { hashPassword } from "../services/user/helpers";
+import helpers from "../services/user/helpers";
 import regex from "../utils/dict/regex";
 import statusCodes from '../utils/dict/statusCodes.json';
 
@@ -37,7 +37,7 @@ const userSchema = new Schema<IUserInDb>({
 });
 
 userSchema.post('validate', async function() {
-  this.password = await hashPassword(this.password);
+  this.password = await helpers.hashPassword(this.password);
 });
 
 

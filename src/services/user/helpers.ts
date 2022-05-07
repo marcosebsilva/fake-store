@@ -6,9 +6,9 @@ dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dummy_key';
 
-export const hashPassword = (password: string) => bcrypt.hash(password, 10);
+const hashPassword = (password: string) => bcrypt.hash(password, 10);
 
-export const verifyToken = (token: string) => {
+const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch(error) {
@@ -16,7 +16,9 @@ export const verifyToken = (token: string) => {
   }
 };
 
-export const generateToken = (data: IJwtPayload) => {
+const verifyPassword = (expected: string, actual:string ) => bcrypt.compareSync(actual, expected);
+
+const generateToken = (data: IJwtPayload) => {
   const token = jwt.sign({ data }, JWT_SECRET, {
     expiresIn: '1h',
     algorithm: 'HS256'
@@ -24,3 +26,11 @@ export const generateToken = (data: IJwtPayload) => {
 
   return token;
 };
+
+
+export default {
+  hashPassword,
+  verifyToken,
+  verifyPassword,
+  generateToken
+}

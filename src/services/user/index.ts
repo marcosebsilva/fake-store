@@ -1,7 +1,7 @@
 import User from "../../models/user";
 import statusCode from '../../utils/dict/statusCodes.json';
 import CustomError from "../../utils/modules/CustomError";
-import { generateToken, verifyToken } from "./helpers";
+import helpers from "./helpers";
 import bcrypt from 'bcrypt';
 import IBaseUser from "../../../interfaces/BaseUser";
 import { Error } from "mongoose";
@@ -11,7 +11,7 @@ export const register = async(body: IBaseUser, UserModel: any = User) => {
   try {
     const newUser = new UserModel(body);
     const result = await newUser.save();
-    const token = generateToken({
+    const token = helpers.generateToken({
       email: result.email,
       role: result.role
     })
@@ -27,12 +27,12 @@ export const register = async(body: IBaseUser, UserModel: any = User) => {
 
 export const login = async(body: IBaseUser, UserModel = User) => {
   const foundUser = await UserModel.findOne({ email: body.email });
-  if(!foundUser) throw new CustomError('User not found.', statusCode.BAD_REQUEST);
+  if(!foundUser) throw new CustomError('User not found.', statusCode.NOT_FOUND);
 
-  const isPasswordValid = bcrypt.compareSync(body.password, foundUser.password);
-  if (!isPasswordValid) throw new CustomError('Wrong password.', statusCode.BAD_REQUEST);
+  const isPasswordValid = helpers.verifyPassword(body.password, foundUser.password);
+  if (!isPasswordValid) throw new CustomError('Wrong password.', statusCode.UNAUTHORIZED);
 
-  const token = generateToken({email: foundUser.email, role: foundUser.role});
+  const token = helpers.generateToken({email: foundUser.email, role: foundUser.role});
 
   return { token };
 };

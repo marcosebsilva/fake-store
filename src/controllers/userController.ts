@@ -22,9 +22,20 @@ const login = async(req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getOne = async(req: Request, res: Response, next: NextFunction) => {
+  // 
+  // 
+};
+
+const getAll = async(req: Request, res: Response, next: NextFunction) => {
+
+};
+
 export default {
   login,
-  register
+  register,
+  getOne,
+  getAll,
 }
 // const login;
 // const updateCoins;

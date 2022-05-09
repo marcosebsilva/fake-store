@@ -5,6 +5,7 @@ import helpers from "./helpers";
 import bcrypt from 'bcrypt';
 import IBaseUser from "../../../interfaces/BaseUser";
 import { Error } from "mongoose";
+import { Request } from "express";
 
 
 export const register = async(body: IBaseUser, UserModel: any = User) => {
@@ -37,7 +38,16 @@ export const login = async(body: IBaseUser, UserModel = User) => {
   return { token };
 };
 
+export const getAll = async (header: string) => {
+
+};
+export const getOne = async (header: string) => {
+
+};
+
 export default {
   register,
-  login
+  login,
+  getOne,
+  getAll,
 }

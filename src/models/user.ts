@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import IUserInDb from '../../interfaces/UserInDb';
-import auth from "../services/auth_service";
+import auth from "../services/auth.service";
 import regex from "../utils/dict/regex";
 
 const userSchema = new Schema<IUserInDb>({

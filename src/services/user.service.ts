@@ -1,7 +1,7 @@
 import User from "../models/user";
 import statusCode from '../utils/dict/statusCodes.json';
 import CustomError from "../utils/modules/CustomError";
-import auth from "./auth_service";
+import auth from "./auth.service";
 import IBaseUser from "../../interfaces/BaseUser";
 import { Error } from "mongoose";
 import ICustomRequest from "../../interfaces/CustomRequest";

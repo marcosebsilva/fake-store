@@ -1,4 +1,4 @@
-import auth from '../src/services/auth_service';
+import auth from '../src/services/auth.service';
 import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 

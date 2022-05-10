@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import userService from '../services/user_service';
+import userService from '../services/user.service';
 import statusCode from '../utils/dict/statusCodes.json';
 
 

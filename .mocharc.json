@@ -1,0 +1,6 @@
+{
+  "require": ["ts-node/register", "./mocha_fixtures.mjs"],
+  
+  "watch-files": ["./tests/**spec.ts"],
+  "slow": "150"
+}

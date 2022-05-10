@@ -1,8 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 import IUserInDb from '../../interfaces/UserInDb';
-import helpers from "../services/user/helpers";
+import auth from "../services/auth_service";
 import regex from "../utils/dict/regex";
-import statusCodes from '../utils/dict/statusCodes.json';
 
 const userSchema = new Schema<IUserInDb>({
   name: {
@@ -37,7 +36,7 @@ const userSchema = new Schema<IUserInDb>({
 });
 
 userSchema.post('validate', async function() {
-  this.password = await helpers.hashPassword(this.password);
+  this.password = await auth.hashPassword(this.password);
 });
 
 

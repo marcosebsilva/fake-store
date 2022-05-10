@@ -1,24 +1,15 @@
 import mongoose, { HydratedDocument } from 'mongoose';
 import chaiAsPromised from 'chai-as-promised';
-import dotenv from 'dotenv';
 import User from '../src/models/user';
 import { expect, use } from 'chai';
 import IBaseUser from '../interfaces/BaseUser';
 
 use(chaiAsPromised);
 
-dotenv.config();
-
-const { MONGO_TEST_ENVIRONMENT, MONGO_HOST } = process.env;
-
-const TEST_URI = `mongodb://${MONGO_HOST}:27017/${MONGO_TEST_ENVIRONMENT}`;
-mongoose.connect(TEST_URI);
-
 
 describe("User model", () => {
   after(async () => {
     await User.deleteMany({});
-    await mongoose.connection.close();
   });
   describe("1.With the proper body props:", () => {
     before(async () => {

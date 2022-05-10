@@ -1,15 +1,12 @@
 import app from './app';
-import userController from '../controllers/userController';
-import errorMiddleware from '../middlewares/errorMiddleware';
 import connect from './connection';
+import dotenv from 'dotenv';
 
-const PORT = 3000;
+dotenv.config();
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Started at port ${ PORT }`));
 
+const URI = `mongodb://${process.env.MONGO_HOST}:27017/${process.env.DATABASE_NAME}`;
 
-connect();
-app.post('/register', userController.register);
-app.post('/login', userController.login);
-
-app.use(errorMiddleware);
+connect(URI);

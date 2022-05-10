@@ -5,7 +5,7 @@ import chaiAsPromised from 'chai-as-promised';
 use(chaiAsPromised);
 
 
-describe.only("Auth service", () => {
+describe("Auth service", () => {
   describe("1.Hash and decode password.",() => {
     let hashed: string;
     const inputPassword = "secret";

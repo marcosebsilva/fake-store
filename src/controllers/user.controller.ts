@@ -41,11 +41,19 @@ const getAll = async(req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const updateCoinAmount = async(req: Request, res: Response, next: NextFunction) => {
+  try {
+    await userService.updateCoinAmount(req);
+    res.sendStatus(statusCode.OK)
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   login,
+  updateCoinAmount,
   register,
   getOne,
   getAll,
 }
-// const login;
-// const updateCoins;

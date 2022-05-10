@@ -16,7 +16,8 @@ const userSchema = new Schema<IUserInDb>({
     trim: true
   },
   coins: {
-    type: [],
+    type: Number,
+    default: 0,
   },
   email: {
     type: String,

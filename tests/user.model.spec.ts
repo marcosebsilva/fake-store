@@ -1,6 +1,6 @@
 import { HydratedDocument } from 'mongoose';
 import chaiAsPromised from 'chai-as-promised';
-import User from '../src/models/user';
+import User from '../src/models/user.model';
 import { expect, use } from 'chai';
 import IBaseUser from '../interfaces/BaseUser';
 

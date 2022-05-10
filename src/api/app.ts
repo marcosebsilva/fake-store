@@ -10,6 +10,7 @@ app.post('/register', userController.register);
 app.post('/login', userController.login);
 app.get('/users', authMiddleware, userController.getAll);
 app.get('/user', authMiddleware, userController.getOne);
+app.put('/user', authMiddleware, userController.updateCoinAmount);
 
 app.use(errorMiddleware);
 

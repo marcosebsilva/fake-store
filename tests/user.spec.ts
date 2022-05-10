@@ -1,5 +1,5 @@
 import chai, { expect, use } from 'chai';
-import User from '../src/models/user';
+import User from '../src/models/user.model';
 import chaiHttp from 'chai-http';
 import app from '../src/api/app';
 import statusCodes from '../src/utils/dict/statusCodes.json';
@@ -187,6 +187,63 @@ describe("User services", () => {
         .auth("very_cool_token", {type: 'bearer'});
 
       expect(response).to.have.status(statusCodes.BAD_REQUEST);
+    });
+  });
+
+  describe("5.When trying to update a user", () => {
+    it("- is possible to edit as a admin", async () => {
+      const data: IBaseUser = {
+        email: "admin@email.com",
+        name: "Jonathan Doe",
+        password: "@adminsecret",
+        role: "admin"
+      }
+
+      const newAdmin = new User(data);
+
+      await newAdmin.save();
+
+      const { body: { token: adminToken } } = await chai.request(app)
+        .post('/login')
+        .send({
+          email: data.email,
+          password: data.password
+        });
+  
+      const response = await chai.request(app)
+        .put('/user')
+        .auth(adminToken, {type: 'bearer'})
+        .send({
+          amount: 2250
+        });
+
+      expect(response).to.have.status(statusCodes.OK)
+    });
+    it("- is not possible to update as a normal user", async () => {
+     const data: IBaseUser = {
+        email: "user@email.com",
+        name: "Dave Doe",
+        password: "@usersecret",
+      }
+
+      const newUser = new User(data);
+
+      await newUser.save();
+      const { body: { token: userToken } } = await chai.request(app)
+        .post('/login')
+        .send({
+          email: data.email,
+          password: data.password
+        });
+
+      const response = await chai.request(app)
+        .put('/user')
+        .auth(userToken, {type: 'bearer'})
+        .send({
+          amount: 2250,
+        })
+
+      expect(response).to.have.status(statusCodes.UNAUTHORIZED);
     });
   });
 });

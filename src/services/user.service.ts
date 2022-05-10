@@ -1,4 +1,4 @@
-import User from "../models/user";
+import User from "../models/user.model";
 import statusCode from '../utils/dict/statusCodes.json';
 import CustomError from "../utils/modules/CustomError";
 import auth from "./auth.service";
@@ -63,8 +63,18 @@ export const getOne = async (req: ICustomRequest): Promise<IUserInDb | null> => 
   return user;
 };
 
+export const updateCoinAmount = async (req: ICustomRequest) => {
+  const user = await User.findOne({email: req.email});
+  if (!user) throw new CustomError("User not found.", statusCode.NOT_FOUND);
+
+  if (req.role !== ADMIN_ROLE) throw new CustomError("You don't have access to this resource.", statusCode.UNAUTHORIZED);
+
+  await user.updateOne({coins: req.body.amount});
+};
+
 export default {
   register,
+  updateCoinAmount,
   login,
   getOne,
   getAll,

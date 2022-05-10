@@ -3,14 +3,14 @@ import statusCode from '../utils/dict/statusCodes.json';
 import CustomError from "../utils/modules/CustomError";
 import auth from "./auth.service";
 import IBaseUser from "../../interfaces/BaseUser";
-import { Error } from "mongoose";
+import { Error, Model } from "mongoose";
 import ICustomRequest from "../../interfaces/CustomRequest";
 import getValidationMessages from "../utils/functions/getValidationMessages";
 import IUserInDb from "../../interfaces/UserInDb";
 const ADMIN_ROLE = 'admin';
 
 
-export const register = async(body: IBaseUser, UserModel: any = User): Promise<{token: string}> => {
+export const register = async(body: IBaseUser, UserModel: Model<IUserInDb> = User): Promise<{token: string}> => {
   try {
     const newUser = new UserModel(body);
     const result = await newUser.save();

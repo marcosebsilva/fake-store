@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import auth_service from "../services/auth_service";
 import statusCodes from '../utils/dict/statusCodes.json';
 import CustomError from "../utils/modules/CustomError";

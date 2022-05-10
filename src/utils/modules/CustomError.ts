@@ -1,5 +1,3 @@
-import { Error } from "mongoose";
-
 export default class CustomError {
   name: string;
   message:  Array<string> | string;

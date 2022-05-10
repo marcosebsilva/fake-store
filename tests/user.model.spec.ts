@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import chaiAsPromised from 'chai-as-promised';
 import User from '../src/models/user';
 import { expect, use } from 'chai';
@@ -40,7 +40,7 @@ describe("User model", () => {
     });
     it("- stores a hash and not the actual password.", async () => {
       const registeredUser = await User.findOne({email: newUser.email});
-      let passwordIsHashed: boolean = false;
+      let passwordIsHashed = false;
       
       if (registeredUser){
         passwordIsHashed = (registeredUser.password !== '@12345678')

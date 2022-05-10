@@ -2,11 +2,11 @@ import { Error } from "mongoose";
 
 export default class CustomError {
   name: string;
-  error: Error.ValidationError | string;
+  message:  Array<string> | string;
   statusCode: number;
-  constructor(error: Error.ValidationError | string, statusCode: number) {
+  constructor(message:  Array<string> | string, statusCode: number) {
     this.name = 'CustomError';
-    this.error = error;
+    this.message = message;
     this.statusCode = statusCode;
   }
 }

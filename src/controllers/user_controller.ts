@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import authService from '../services/user_service';
+import userService from '../services/user_service';
 import statusCode from '../utils/dict/statusCodes.json';
 
 
 const register = async(req: Request, res: Response, next: NextFunction) => {
   const { body } = req;
   try {
-    const result = await authService.register(body);
+    const result = await userService.register(body);
     res.status(statusCode.CREATED).json(result);
   } catch (error) {
     next(error);
@@ -16,7 +16,7 @@ const register = async(req: Request, res: Response, next: NextFunction) => {
 const login = async(req: Request, res: Response, next: NextFunction) => {
   const { body } = req;
   try {
-    const result = await authService.login(body);
+    const result = await userService.login(body);
     res.status(statusCode.OK).json(result);
   } catch(error) {
     next(error)
@@ -24,11 +24,21 @@ const login = async(req: Request, res: Response, next: NextFunction) => {
 };
 
 const getOne = async(req: Request, res: Response, next: NextFunction) => {
-  throw "failing";
+  try {
+    const result = await userService.getOne(req);
+    res.status(statusCode.OK).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getAll = async(req: Request, res: Response, next: NextFunction) => {
-  throw "failing";
+  try {
+    const result = await userService.getAll(req);
+    res.status(statusCode.OK).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default {

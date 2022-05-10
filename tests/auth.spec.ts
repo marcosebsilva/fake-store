@@ -18,12 +18,10 @@ describe("Auth service", () => {
       expect(hashed).to.not.be.equal(inputPassword);
     });
 
-
     it("- returns nothing if verification suceeds.", async () => {
       const actual = await auth.verifyPassword(hashed, inputPassword);
       expect(actual).to.be.equal(undefined);
     });
-
 
     it("- throws if verification fails.", async () => {
       await expect(auth.verifyPassword(hashed, "foo")).to.eventually.be.rejected;
@@ -42,10 +40,12 @@ describe("Auth service", () => {
       token = auth.generateToken(data);
       expect(token).to.not.be.null;
     });
+
     it("- verification returns the data if token is valid.", () => {
       const actual = auth.verifyToken(token);
       expect(actual.data).to.be.eql(data);
     });
+
     it("- verification throws error in token is invalid.", async () => {
       const RANDOM_STRING = "@jjj";
       const badFn = () => auth.verifyToken(RANDOM_STRING);

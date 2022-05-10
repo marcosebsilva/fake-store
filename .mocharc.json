@@ -1,6 +1,7 @@
 {
   "require": ["ts-node/register", "./mocha_fixtures.mjs"],
-  
+  "recursive": true,
   "watch-files": ["./tests/**spec.ts"],
-  "slow": "150"
+  "slow": "150",
+  "timeout": "2000"
 }

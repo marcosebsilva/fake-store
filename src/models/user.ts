@@ -4,6 +4,11 @@ import auth from "../services/auth_service";
 import regex from "../utils/dict/regex";
 
 const userSchema = new Schema<IUserInDb>({
+  _id: {
+    type: Schema.Types.ObjectId,
+    select: false,
+    auto: true,
+  },
   name: {
     type: String,
     required: [true, 'Name field is required.'],
@@ -32,8 +37,8 @@ const userSchema = new Schema<IUserInDb>({
     type: String,
     required: [true, 'Password field is required.'],
     minlength: [8, 'Weak password.']
-  }
-});
+  },
+}, { versionKey: false });
 
 userSchema.post('validate', async function() {
   this.password = await auth.hashPassword(this.password);

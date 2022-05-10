@@ -1,9 +1,5 @@
-import userService from '../src/services/user_service';
 import chai, { expect, use } from 'chai';
-import jwt from 'jsonwebtoken';
 import User from '../src/models/user';
-import sinon from 'sinon';
-import helpers from '../src/services/auth_service';
 import chaiHttp from 'chai-http';
 import app from '../src/api/app';
 import statusCodes from '../src/utils/dict/statusCodes.json';
@@ -137,7 +133,6 @@ describe("User services", () => {
       expect(response).to.have.status(statusCodes.OK);
       expect(response.body).to.not.be.empty;
     });
-
     it("- you cant retrieve all users as a normal user", async () => {
       const data: IBaseUser = {
         email: "user@email.com",
@@ -179,6 +174,7 @@ describe("User services", () => {
           password: data.password
         });
 
+
       const response = await chai.request(app)
         .get('/user')
         .auth(userToken, {type: 'bearer'});
@@ -190,7 +186,7 @@ describe("User services", () => {
         .get('/user')
         .auth("very_cool_token", {type: 'bearer'});
 
-      expect(response).to.have.status(statusCodes.NOT_FOUND);
+      expect(response).to.have.status(statusCodes.BAD_REQUEST);
     });
   });
 });

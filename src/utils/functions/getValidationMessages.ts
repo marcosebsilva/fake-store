@@ -4,8 +4,8 @@ export default function (err: Error.ValidationError) {
   const { errors } = err;
   const messages: Array<string> = [];
 
-  for (const err of Object.values(errors)) {
-    messages.push(err.message);
+  for (const error of Object.values(errors)) {
+    messages.push(error.message);
   }
 
   return messages;

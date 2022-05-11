@@ -28,7 +28,7 @@ export const register = async(user: IBaseUser, UserModel: Model<IUserInDb> = Use
       throw exceptions.VALIDATION_ERROR(messages);
     }
     
-    if(error.code === DUPLICATE_KEY_ERROR_CODE){
+    if (error.code === DUPLICATE_KEY_ERROR_CODE) {
       throw exceptions.USER_ALREADY_REGISTERED
     }
     
@@ -53,12 +53,16 @@ export const login = async(user: IBaseUser, UserModel = User) => {
 };
 export const find = async (request: ICustomRequest ) => {
   if (request.role === ADMIN_ROLE) {
-    const result = await User.find({});
+    const result = await User.find({})
+      .select({ password: false });
+      
     return {users: result};
   } 
   
   if (request.role === USER_ROLE) {
-    const result = await User.findOne({email: request.email});
+    const result = await User.findOne({ email: request.email })
+      .select({ password: false });
+
     if (!result) throw exceptions.USER_NOT_FOUND;
     return result;
   }

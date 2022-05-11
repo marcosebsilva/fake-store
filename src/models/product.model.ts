@@ -2,11 +2,6 @@ import { model, Schema } from "mongoose";
 import IProductInDb from "../../interfaces/ProductInDb";
 
 const productSchema = new Schema<IProductInDb>({
-  _id: {
-    type: Schema.Types.ObjectId,
-    select: false,
-    auto: true,
-  },
   name: {
     type: String,
     required: [true, 'Your product must have a name.'],

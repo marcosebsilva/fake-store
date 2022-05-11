@@ -6,7 +6,7 @@ import regex from "../utils/dict/regex";
 const userSchema = new Schema<IUserInDb>({
   _id: {
     type: Schema.Types.ObjectId,
-    select: false,
+    select: true,
     auto: true,
   },
   name: {

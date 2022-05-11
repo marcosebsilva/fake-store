@@ -159,6 +159,7 @@ describe("User integration", () => {
 
       expect(response).to.have.status(statusCodes.OK);
       expect(response.body).to.have.property('name', newUser.name);
+      expect(response.body).to.not.have.property('password');
     });
     it("- it can't retrieve user with wrong token", async () => {
       const response = await chai.request(app)

@@ -10,6 +10,8 @@ const errorDetails = (message: string, status: number, ) => ({status, message })
 
 
 export default {
+  PRODUCT_ALREADY_REGISTERED: errorDetails("Product already registered.", CONFLICT),
+  PRODUCT_NOT_FOUND: errorDetails("Product not found", NOT_FOUND),
   USER_NOT_FOUND: errorDetails("User not found.", NOT_FOUND),
   UNAUTHORIZED_USER: errorDetails("You don't have access to this resource", UNAUTHORIZED),
   MISSING_AUTH_TOKEN: errorDetails("Missing authentication token.", BAD_REQUEST),

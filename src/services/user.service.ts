@@ -1,81 +1,87 @@
 import User from "../models/user.model";
-import statusCode from '../utils/dict/statusCodes.json';
-import CustomError from "../utils/modules/CustomError";
 import auth from "./auth.service";
 import IBaseUser from "../../interfaces/BaseUser";
 import { Error, Model } from "mongoose";
 import ICustomRequest from "../../interfaces/CustomRequest";
 import getValidationMessages from "../utils/functions/getValidationMessages";
 import IUserInDb from "../../interfaces/UserInDb";
+import exceptions from "../utils/dict/exceptions";
 const ADMIN_ROLE = 'admin';
+const USER_ROLE = 'user';
 
 
-export const register = async(body: IBaseUser, UserModel: Model<IUserInDb> = User): Promise<{token: string}> => {
+export const register = async(user: IBaseUser, UserModel: Model<IUserInDb> = User) => {
   try {
-    const newUser = new UserModel(body);
-    const result = await newUser.save();
+    const newUser = new UserModel(user);
+    const queryResult = await newUser.save();
     const token = auth.generateToken({
-      email: result.email,
-      role: result.role
+      email: queryResult.email,
+      role: queryResult.role
     })
 
     return { token };
   } catch (error: any) {
     const DUPLICATE_KEY_ERROR_CODE = 11000;
+
     if (error instanceof Error.ValidationError) {
       const messages = getValidationMessages(error);
-      throw new CustomError(messages, statusCode.BAD_REQUEST);
+      throw exceptions.VALIDATION_ERROR(messages);
     }
     
     if(error.code === DUPLICATE_KEY_ERROR_CODE){
-      throw new CustomError("Email already in registered.", statusCode.CONFLICT);
+      throw exceptions.USER_ALREADY_REGISTERED
     }
     
-    throw new CustomError("Internal error!", statusCode.INTERNAL_ERROR);
+    throw exceptions.INTERNAL_ERROR;
   }
 };
+export const login = async(user: IBaseUser, UserModel = User) => {
+  const foundUser = await UserModel.findOne({
+    email: user.email
+  });
 
-export const login = async(body: IBaseUser, UserModel = User): Promise<{token: string}> => {
-  const foundUser = await UserModel.findOne({ email: body.email });
-  if(!foundUser) throw new CustomError("User not found.", statusCode.NOT_FOUND);
+  if (!foundUser) throw exceptions.USER_NOT_FOUND;
 
-  await auth.verifyPassword(foundUser.password, body.password);
-  const token = auth.generateToken({email: foundUser.email, role: foundUser.role});
+  await auth.verifyPassword(foundUser.password, user.password);
+
+  const token = auth.generateToken({
+    email: foundUser.email,
+    role: foundUser.role
+  });
 
   return { token };
 };
+export const find = async (request: ICustomRequest ) => {
+  if (request.role === ADMIN_ROLE) {
+    const result = await User.find({});
+    return {users: result};
+  } 
+  
+  if (request.role === USER_ROLE) {
+    const result = await User.findOne({email: request.email});
+    if (!result) throw exceptions.USER_NOT_FOUND;
+    return result;
+  }
+};
+export const updateCoinAmount = async (request: ICustomRequest) => {
+  const user = await User.findOne({
+    email: request.email
+  });
 
-export const getAll = async (req: ICustomRequest ) => {
-  try {
-    if (req.role !== ADMIN_ROLE) throw "You don't have access to this resource.";
-    const user = await User.find({});
-    return user;
-  } catch (error:any) {
-    throw new CustomError(error, statusCode.UNAUTHORIZED);
+  if (!user) throw exceptions.USER_NOT_FOUND
+
+  if (request.role !== ADMIN_ROLE) {
+    throw exceptions.UNAUTHORIZED_USER;
   }
 
-};
-export const getOne = async (req: ICustomRequest): Promise<IUserInDb | null> => {
-  const user = await User.findOne({email: req.email});
-
-  if (!user) throw new CustomError("User not found.", statusCode.NOT_FOUND);
-
-  return user;
-};
-
-export const updateCoinAmount = async (req: ICustomRequest) => {
-  const user = await User.findOne({email: req.email});
-  if (!user) throw new CustomError("User not found.", statusCode.NOT_FOUND);
-
-  if (req.role !== ADMIN_ROLE) throw new CustomError("You don't have access to this resource.", statusCode.UNAUTHORIZED);
-
-  await user.updateOne({coins: req.body.amount});
+  await user.updateOne({
+    coins: request.body.amount
+  });
 };
 
 export default {
   register,
   updateCoinAmount,
   login,
-  getOne,
-  getAll,
+  find,
 }

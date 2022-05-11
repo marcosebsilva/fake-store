@@ -8,8 +8,7 @@ const app: Express = express();
 app.use(express.json());
 app.post('/register', userController.register);
 app.post('/login', userController.login);
-app.get('/users', authMiddleware, userController.getAll);
-app.get('/user', authMiddleware, userController.getOne);
+app.get('/user', authMiddleware, userController.find);
 app.put('/user', authMiddleware, userController.updateCoinAmount);
 
 app.use(errorMiddleware);

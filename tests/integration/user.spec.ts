@@ -7,7 +7,7 @@ import IBaseUser from '../../interfaces/BaseUser';
 
 use(chaiHttp);
 
-describe("User services", () => {
+describe("User integration", () => {
   before(async () => {
     // clears test db
     await User.deleteMany({});
@@ -127,36 +127,14 @@ describe("User services", () => {
         });
 
       const response = await chai.request(app)
-        .get('/users')
+        .get('/user')
         .auth(adminToken, {type: 'bearer'});
 
       expect(response).to.have.status(statusCodes.OK);
-      expect(response.body).to.not.be.empty;
+      expect(response.body).to.have.property('users');
+      expect(response.body.users).to.be.an('array');
     });
-    it("- you cant retrieve all users as a normal user", async () => {
-      const data: IBaseUser = {
-        email: "user@email.com",
-        name: "Dave Doe",
-        password: "@usersecret",
-      }
-
-      const newUser = new User(data);
-
-      await newUser.save();
-      const { body: { token: userToken } } = await chai.request(app)
-        .post('/login')
-        .send({
-          email: data.email,
-          password: data.password
-        });
-
-      const response = await chai.request(app)
-        .get('/users')
-        .auth(userToken, {type: 'bearer'});
-
-      expect(response).to.have.status(statusCodes.UNAUTHORIZED);
-    });
-    it("- can retrieve user with proper token", async () => {
+    it("- retrieve one as a normal user", async () => {
       const data: IBaseUser = {
         email: "user@email.com",
         name: "Dave Doe",
@@ -180,6 +158,7 @@ describe("User services", () => {
         .auth(userToken, {type: 'bearer'});
 
       expect(response).to.have.status(statusCodes.OK);
+      expect(response.body).to.have.property('name', newUser.name);
     });
     it("- it can't retrieve user with wrong token", async () => {
       const response = await chai.request(app)

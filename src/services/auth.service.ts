@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import exceptions from '../utils/dict/exceptions';
 import IJwtPayload from '../../interfaces/JwtPayload';
-import CustomError from '../utils/modules/CustomError';
-import statusCode from '../utils/dict/statusCodes.json';
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dummy_key';
@@ -15,15 +14,13 @@ const verifyToken =  (token: string): IJwtPayload => {
     const data = jwt.verify(token, JWT_SECRET);
     return data as IJwtPayload;
   } catch (error) {
-    throw new CustomError("JWT malformed.", statusCode.BAD_REQUEST);
+    throw exceptions.JWT_MALFORMED
   }
 };
 
 const verifyPassword = async (expected: string, actual:string ) => {
   const isPasswordValid = await bcrypt.compareSync(actual, expected);
-  if (!isPasswordValid) {
-    throw new CustomError('Wrong password.', statusCode.UNAUTHORIZED);
-  }
+  if (!isPasswordValid) throw exceptions.INVALID_USER_OR_PASSWORD;
 };
 
 const generateToken = (data: IJwtPayload) => {

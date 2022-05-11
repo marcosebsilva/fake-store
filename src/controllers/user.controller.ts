@@ -3,48 +3,39 @@ import userService from '../services/user.service';
 import statusCode from '../utils/dict/statusCodes.json';
 
 
-const register = async(req: Request, res: Response, next: NextFunction) => {
-  const { body } = req;
+const register = async(request: Request, response: Response, next: NextFunction) => {
+  const { body } = request;
   try {
     const result = await userService.register(body);
-    res.status(statusCode.CREATED).json(result);
+    response.status(statusCode.CREATED).json(result);
   } catch (error) {
     next(error);
   }
 };
 
-const login = async(req: Request, res: Response, next: NextFunction) => {
-  const { body } = req;
+const login = async(request: Request, response: Response, next: NextFunction) => {
+  const { body } = request;
   try {
     const result = await userService.login(body);
-    res.status(statusCode.OK).json(result);
+    response.status(statusCode.OK).json(result);
   } catch(error) {
     next(error)
   }
 };
 
-const getOne = async(req: Request, res: Response, next: NextFunction) => {
+const find = async(request: Request, response: Response, next: NextFunction) => {
   try {
-    const result = await userService.getOne(req);
-    res.status(statusCode.OK).json(result);
+    const result = await userService.find(request);
+    response.status(statusCode.OK).json(result);
   } catch (error) {
     next(error);
   }
 };
 
-const getAll = async(req: Request, res: Response, next: NextFunction) => {
+const updateCoinAmount = async(request: Request, response: Response, next: NextFunction) => {
   try {
-    const result = await userService.getAll(req);
-    res.status(statusCode.OK).json(result);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateCoinAmount = async(req: Request, res: Response, next: NextFunction) => {
-  try {
-    await userService.updateCoinAmount(req);
-    res.sendStatus(statusCode.OK)
+    await userService.updateCoinAmount(request);
+    response.sendStatus(statusCode.OK)
   } catch (error) {
     next(error);
   }
@@ -54,6 +45,5 @@ export default {
   login,
   updateCoinAmount,
   register,
-  getOne,
-  getAll,
+  find,
 }

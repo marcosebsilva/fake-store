@@ -1,8 +1,6 @@
-import { HydratedDocument } from 'mongoose';
 import chaiAsPromised from 'chai-as-promised';
-import User from '../src/models/user.model';
+import User from '../../src/models/user.model';
 import { expect, use } from 'chai';
-import IBaseUser from '../interfaces/BaseUser';
 
 use(chaiAsPromised);
 
@@ -18,7 +16,7 @@ describe("User model", () => {
     after(async () => {
       await User.deleteMany({});
     });
-    const newUser: HydratedDocument<IBaseUser> = new User({
+    const newUser = new User({
       name: "John Doe",
       password: "@12345678",
       email: "john@gmail.com"
@@ -72,17 +70,17 @@ describe("User model", () => {
     });
 
     it("- throws error if some field is missing", async () => {
-      const userWithoutPassword: HydratedDocument<IBaseUser> = new User({
+      const userWithoutPassword = new User({
         name: "John Doe",
         email: "john@gmail.com"
       });
 
-      const userWithoutName: HydratedDocument<IBaseUser> = new User({
+      const userWithoutName = new User({
         password: "@12345678",
         email: "john@gmail.com"
       });
 
-      const userWithoutEmail: HydratedDocument<IBaseUser> = new User({
+      const userWithoutEmail = new User({
         name: "John Doe",
         password: "@12345678"
       });
@@ -92,7 +90,7 @@ describe("User model", () => {
       await expect(userWithoutEmail.validate()).to.eventually.be.rejected;
     });
     it('- throws error if the password is too short.', async () => {
-      const userWithShortPassword: HydratedDocument<IBaseUser> = new User({
+      const userWithShortPassword = new User({
         name: "John Doe",
         password: "@1234",
         email: "john@gmail.com"
@@ -102,7 +100,7 @@ describe("User model", () => {
     
     });
     it('- throws error if the name is too short.', async () => {
-    const userWithShortName: HydratedDocument<IBaseUser> = new User({
+      const userWithShortName = new User({
         name: "Jho",
         password: "@12345678",
         email: "john@gmail.com"
@@ -111,8 +109,8 @@ describe("User model", () => {
       await expect(userWithShortName.validate()).to.eventually.be.rejected;
     });
     it('- throws error if the email is malformed.', async () => {
-    const userWithBadEmail: HydratedDocument<IBaseUser> = new User({
-        name: "Jhon Doe",
+      const userWithBadEmail = new User({
+        name: 333,
         password: "@12345678",
         email: "john.com"
       });

@@ -1,9 +1,9 @@
 import chai, { expect, use } from 'chai';
-import User from '../src/models/user.model';
+import User from '../../src/models/user.model';
 import chaiHttp from 'chai-http';
-import app from '../src/api/app';
-import statusCodes from '../src/utils/dict/statusCodes.json';
-import IBaseUser from '../interfaces/BaseUser';
+import app from '../../src/api/app';
+import statusCodes from '../../src/utils/dict/statusCodes.json';
+import IBaseUser from '../../interfaces/BaseUser';
 
 use(chaiHttp);
 

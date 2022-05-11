@@ -7,7 +7,7 @@
     "start": "npm run build && node ./dist/src/api/server.js",
     "dev": "tsnd ./src/api/server.ts",
     "build": "tsc",
-    "test": "mocha ./tests/**.spec.ts --exit",
+    "test": "mocha ./tests/**/**.spec.ts --exit",
     "test:coverage": "nyc npm run test",
     "lint": "eslint . --ext .ts --fix"
   },
@@ -32,6 +32,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^8.15.0",
     "mocha": "^10.0.0",
+    "mongodb-memory-server": "^8.5.2",
     "sinon": "^13.0.2",
     "ts-node-dev": "^1.1.8"
   },

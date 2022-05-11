@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import auth_service from "../services/auth_service";
+import auth_service from "../services/auth.service";
 import statusCodes from '../utils/dict/statusCodes.json';
 import CustomError from "../utils/modules/CustomError";
 import ICustomRequest from '../../interfaces/CustomRequest';

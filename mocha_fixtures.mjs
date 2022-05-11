@@ -1,14 +1,17 @@
+/* eslint-disable */ 
+
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 dotenv.config();
 
-const { MONGO_TEST_ENVIRONMENT, MONGO_HOST } = process.env;
-const TEST_URI = `mongodb://${MONGO_HOST}:27017/${MONGO_TEST_ENVIRONMENT}`;
+const memoryServer = await MongoMemoryServer.create();
+const URI = memoryServer.getUri();
 
 export async function mochaGlobalSetup() {
   try {
-    await mongoose.connect(TEST_URI);
+    await mongoose.connect(URI);
     console.log('Mongoose test environment connected!');
   } catch (error) {
     console.log('Mongoose test environtment connection failed!');

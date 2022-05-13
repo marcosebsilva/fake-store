@@ -7,7 +7,7 @@ import IBaseUser from '../../interfaces/BaseUser';
 
 use(chaiHttp);
 
-describe("User integration", () => {
+describe("Integration", () => {
   before(async () => {
     // clears test db
     await User.deleteMany({});
@@ -17,7 +17,6 @@ describe("User integration", () => {
     // clears test db
     await User.deleteMany({});
   });
-
   describe("1.When registering user with proper data:", () => {
     it("- returns a jwt access token.", async () => {
       const response = await chai.request(app)

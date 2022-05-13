@@ -2,9 +2,11 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/src/api/server.js",
+  "main": "./src/api/server.js",
   "scripts": {
-    "start": "npm run build && node ./dist/src/api/server.js",
+    "start": "node /dist/src/api/server.js",
+    "postinstall": "tsc",
+    "deploy": "git add . && git commit -m deploy-ready && git push heroku dev",
     "dev": "tsnd ./src/api/server.ts",
     "build": "tsc",
     "test": "mocha ./tests/**/**.spec.ts --exit",
